@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Organisation {
+  id    String @id @default(cuid())
+  name  String
+  users User[]
+}
+
+model Role {
+  id          String           @id @default(cuid())
+  name        String
+  description String?
+  users       User[]
+  matrixRules ApprovalMatrix[]
+}
+
+model User {
+  id             String         @id @default(cuid())
+  name           String
+  email          String         @unique
+  roleId         String
+  orgId          String
+  role           Role           @relation(fields: [roleId], references: [id])
+  organisation   Organisation   @relation(fields: [orgId], references: [id])
+  
+  assignedGates  ApprovalGate[] @relation("AssignedApprover")
+  submittedGates ApprovalGate[] @relation("SubmittedBy")
+  auditEvents    AuditEvent[]
+}
+
+model ProcurementCase {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  estimatedValue    Float?
+  durationMonths    Int?
+  procurementMethod String?
+  bidSystem         String?
+  evaluationMethod  String?
+  status            String   @default("DRAFT") // DRAFT, PENDING_APPROVAL, READY_FOR_PUBLICATION, PUBLISHED, REJECTED
+  
+  workspaceData     String   // JSON string storing dynamic workspace data
+  
+  approvalGates     ApprovalGate[]
+  auditEvents       AuditEvent[]
+  documents         Document[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model ApprovalGate {
+  id                 String    @id @default(cuid())
+  caseId             String
+  gateType           String    // ADMINISTRATIVE, BUDGET, STRATEGY, TECH_SPEC, COST_ESTIMATE, FINAL_NIT
+  gateName           String
+  sequence           Int
+  status             String    @default("LOCKED") // NOT_STARTED, DRAFT, SUBMITTED, UNDER_REVIEW, APPROVED, REJECTED, CHANGES_REQUESTED, LOCKED
+  
+  assignedApproverId String?
+  approverRole       String?
+  submittedById      String?
+  
+  submittedDate      DateTime?
+  decisionDate       DateTime?
+  comments           String?
+  requestedChanges   String?
+  
+  case               ProcurementCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  assignedApprover   User?           @relation("AssignedApprover", fields: [assignedApproverId], references: [id])
+  submittedBy        User?           @relation("SubmittedBy", fields: [submittedById], references: [id])
+  auditEvents        AuditEvent[]
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model ApprovalMatrix {
+  id             String  @id @default(cuid())
+  gateType       String
+  minAmount      Float?
+  maxAmount      Float?
+  approverRoleId String
+  role           Role    @relation(fields: [approverRoleId], references: [id])
+}
+
+model AuditEvent {
+  id            String          @id @default(cuid())
+  caseId        String
+  userId        String?
+  gateId        String?
+  
+  action        String
+  previousValue String?
+  newValue      String?
+  comment       String?
+  
+  case          ProcurementCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  user          User?           @relation(fields: [userId], references: [id])
+  gate          ApprovalGate?   @relation(fields: [gateId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime        @default(now())
+}
+
+model Document {
+  id          String          @id @default(cuid())
+  caseId      String
+  type        String          // SOW, TECH_SPEC, NIT_DRAFT, COST_ESTIMATE
+  content     String          // JSON string
+  version     Int             @default(1)
+  
+  case        ProcurementCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}

@@ -1,0 +1,114 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ShieldCheck, Loader2 } from "lucide-react";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        router.push("/dashboard");
+        router.refresh();
+      } else {
+        setError(data.error || "Failed to login");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        <div className="p-8">
+          <div className="flex justify-center mb-6">
+            <div className="bg-indigo-600 p-2 rounded-xl flex items-center justify-center">
+              <ShieldCheck className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-center text-slate-900 mb-2">Welcome to ProcureOS</h2>
+          <p className="text-center text-slate-500 mb-8 text-sm">Enter your enterprise credentials to access the platform.</p>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            {error && (
+              <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-sm text-center">
+                {error}
+              </div>
+            )}
+            
+            <div className="space-y-1.5">
+              <label className="text-sm font-semibold text-slate-700">Work Email</label>
+              <input 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full h-11 px-4 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
+                placeholder="name@company.com"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex justify-between items-center">
+                <label className="text-sm font-semibold text-slate-700">Password</label>
+                <a href="#" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">Forgot?</a>
+              </div>
+              <input 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full h-11 px-4 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full h-11 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg mt-2"
+              disabled={isLoading}
+            >
+              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In securely"}
+            </Button>
+          </form>
+
+          <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+            <p className="text-sm text-slate-600">
+              Need an account for testing?{" "}
+              <Link href="/signup" className="font-semibold text-indigo-600 hover:text-indigo-700">
+                Register here
+              </Link>
+            </p>
+          </div>
+          
+          <div className="mt-6 text-xs text-slate-400 text-center">
+            <p>Demo hint: Use <span className="font-mono bg-slate-100 px-1 rounded text-slate-600">alice@acme.com</span> or <span className="font-mono bg-slate-100 px-1 rounded text-slate-600">bob@acme.com</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
