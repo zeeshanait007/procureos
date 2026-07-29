@@ -31,7 +31,6 @@ export function NewCaseButton() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: title.trim(),
-          workspaceData: "{}",
           workspaceData: "{}"
         })
       });
