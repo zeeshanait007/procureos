@@ -5,7 +5,9 @@ ProcureOS is an enterprise SaaS platform designed to manage the end-to-end procu
 ## Tech Stack
 * **Framework:** Next.js (App Router)
 * **Styling:** Tailwind CSS + shadcn/ui
-* **Database:** SQLite (via Prisma ORM)
+* **Database:** Supabase PostgreSQL (via Prisma ORM)
+* **Authentication:** Supabase Auth
+* **Storage:** Supabase S3 Storage
 * **AI Engine:** Google Gemini API
 * **Language:** TypeScript
 
@@ -32,36 +34,37 @@ npm install
 ```
 
 ### 3. Setup Environment Variables
-You need to create a `.env` file at the root of the project. 
-
-1. Create a file named `.env` in the root folder.
-2. Add the following variables to it:
+Create a `.env` file at the root of the project and add the following variables:
 
 ```env
-# Database Configuration
-DATABASE_URL="file:./dev.db"
+# Database Configuration (Get these from Supabase -> Settings -> Database -> Connection String -> IPv4 Pooler)
+DATABASE_URL="postgresql://postgres.[ref]:[pwd]@aws-0-[region].pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1"
+DIRECT_URL="postgresql://postgres.[ref]:[pwd]@aws-0-[region].pooler.supabase.com:5432/postgres"
+
+# Supabase Auth Configuration (Get these from Supabase -> Settings -> API)
+NEXT_PUBLIC_SUPABASE_URL="https://[ref].supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your_anon_key"
+
+# Supabase S3 Storage Configuration (Get these from Supabase -> Storage -> Settings)
+SUPABASE_S3_ACCESS_KEY="your_s3_access_key"
+SUPABASE_S3_SECRET_KEY="your_s3_secret_key"
+SUPABASE_S3_REGION="your_region"
+SUPABASE_S3_ENDPOINT="https://[ref].storage.supabase.co/storage/v1/s3"
 
 # Google Gemini API (Required for AI Copilot features)
 GEMINI_API_KEY="your_google_gemini_api_key_here"
-
-# Supabase (Optional/If configured)
-NEXT_PUBLIC_SUPABASE_URL="your_supabase_url"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="your_supabase_anon_key"
 ```
 *(Note: You can get a free Gemini API key from Google AI Studio).*
 
 ### 4. Initialize Database & Seed Data
-The application uses Prisma ORM with a local SQLite database. You need to generate the Prisma client, push the schema, and seed the database with the initial roles, users, and dummy procurement cases.
+The application uses Prisma ORM connected to Supabase PostgreSQL.
 
 Run the following commands in order:
 ```bash
-# Generate the Prisma client
-npx prisma generate
+# Push the schema to the database (generates Prisma client automatically)
+npx prisma db push --accept-data-loss
 
-# Push the schema to the database
-npx prisma db push
-
-# Seed the database with initial dummy data
+# Seed the database with initial Roles, Organizations, and dummy Procurement Cases
 npx prisma db seed
 ```
 
@@ -77,17 +80,13 @@ The application will now be running at [http://localhost:3000](http://localhost:
 
 ## Authentication & Role-Based Access Control (RBAC)
 
-ProcureOS implements strict role-based access for the Approval Gates. When you open the application, you will be prompted to log in. 
+ProcureOS implements strict role-based access for the Approval Gates and features full Supabase Authentication. 
 
-Because this is a prototype, **passwords are not strictly validated**, but the **email address must exist** in the database to log in and assume the correct role.
+### How to test the Application
+Since the application uses real Supabase Auth, you must create a new account to test it:
+1. Go to the Login page and click **"Register here"**.
+2. Enter a valid email address and a secure password.
+3. Select your desired **Role** (e.g., Platform Owner, Procurement Head, Finance Authority).
+4. Click "Create Account" and you will be logged in immediately.
 
-### Demo Accounts to Test
-You can use any of the following emails (with any random password like `1234`) to test the different approval flows:
-
-* `admin@acme.com` - **Platform Owner** (Super Admin with universal access)
-* `alice@acme.com` - **Business Head** (Can approve Gate 1)
-* `bob@acme.com` - **Finance Authority** (Can approve Gates 2 & 5)
-* `charlie@acme.com` - **Procurement Head** (Can approve Gates 3 & 6)
-* `diana@acme.com` - **CIO / Technical Committee** (Can approve Gate 4)
-
-*(You can also use the `/signup` page to create a custom user and assign a specific role for testing).*
+*Note: The automatic `prisma db seed` script populates the database with the core Application Roles and Organizations required for registration.*
