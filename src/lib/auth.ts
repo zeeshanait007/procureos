@@ -1,20 +1,21 @@
 import { cookies } from 'next/headers'
 import { prisma } from './prisma'
+import { createClient } from '@/utils/supabase/server'
 
 export async function getCurrentUser() {
-  const cookieStore = await cookies()
-  const userId = cookieStore.get('mock_user_id')?.value
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  if (!userId) {
+  if (!user) {
     return null
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
+  const dbUser = await prisma.user.findUnique({
+    where: { id: user.id },
     include: { role: true, organisation: true }
   })
 
-  return user
+  return dbUser
 }
 
 export async function getAllUsers() {

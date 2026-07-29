@@ -1,21 +1,28 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { createClient } from "@/utils/supabase/server";
 
 export async function POST(req: Request) {
   try {
     const { name, email, password, roleId } = await req.json();
 
-    if (!name || !email || !roleId) {
-      return NextResponse.json({ error: "Name, email, and role are required" }, { status: 400 });
+    if (!name || !email || !password || !roleId) {
+      return NextResponse.json({ error: "Name, email, password, and role are required" }, { status: 400 });
     }
 
-    // Check if user exists
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      return NextResponse.json({ error: "Email already in use" }, { status: 400 });
+    const supabase = await createClient();
+
+    // 1. Sign up the user in Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: 400 });
     }
 
-    // Get default org (since we seeded "Acme Corporation")
+    // 2. Create the user record in Prisma
     const org = await prisma.organisation.findFirst();
     if (!org) {
       return NextResponse.json({ error: "System not initialized properly" }, { status: 500 });
@@ -23,6 +30,7 @@ export async function POST(req: Request) {
 
     const newUser = await prisma.user.create({
       data: {
+        id: authData.user?.id, // Use Supabase Auth ID
         name,
         email,
         roleId,
@@ -30,19 +38,7 @@ export async function POST(req: Request) {
       }
     });
 
-    const response = NextResponse.json({ success: true, user: newUser });
-    
-    // Set cookie to auto-login
-    response.cookies.set({
-      name: "mock_user_id",
-      value: newUser.id,
-      httpOnly: true,
-      path: "/",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7,
-    });
-
-    return response;
+    return NextResponse.json({ success: true, user: newUser });
   } catch (error) {
     console.error("Signup error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
