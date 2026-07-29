@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  devIndicators: {
-    appIsrStatus: false,
-    buildActivity: false,
-  },
+  // Empty config or add valid properties here
 };
 
 export default nextConfig;
