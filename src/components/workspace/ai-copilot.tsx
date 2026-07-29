@@ -30,7 +30,7 @@ export function AiCopilot() {
             <Bot className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-semibold text-sm text-slate-900">ProcureOS Copilot</h3>
+            <h3 className="font-semibold text-sm text-slate-900">Procoryx Copilot</h3>
             <p className="text-xs text-slate-500">Procurement Case Expert</p>
           </div>
         </div>
@@ -46,7 +46,7 @@ export function AiCopilot() {
               <Bot className="w-4 h-4 text-indigo-700" />
             </div>
             <div className="bg-white border rounded-lg p-3 shadow-sm text-slate-700 text-[13px] leading-relaxed">
-              <p>Hi! I'm your ProcureOS Copilot. I've analyzed the <span className="font-semibold">Business Problem</span> from the previous stage.</p>
+              <p>Hi! I'm your Procoryx Copilot. I've analyzed the <span className="font-semibold">Business Problem</span> from the previous stage.</p>
               <p className="mt-2">I have drafted an initial set of technical and business requirements for the <span className="italic">AI-Based Procurement Intelligence Platform</span>.</p>
               <p className="mt-2">You can review them in the center panel, or ask me to make modifications.</p>
             </div>

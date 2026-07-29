@@ -51,7 +51,7 @@ export function SignupForm({ roles }: { roles: any[] }) {
             </div>
           </div>
           <h2 className="text-2xl font-bold text-center text-slate-900 mb-2">Create an Account</h2>
-          <p className="text-center text-slate-500 mb-8 text-sm">Register to access the ProcureOS enterprise platform.</p>
+          <p className="text-center text-slate-500 mb-8 text-sm">Register to access the Procoryx enterprise platform.</p>
 
           <form onSubmit={handleSignup} className="space-y-4">
             {error && (

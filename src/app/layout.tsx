@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "ProcureOS - The Intelligent Procurement Operating System",
+  title: "Procoryx - The Intelligent Procurement Operating System",
   description: "Enterprise SaaS platform for end-to-end procurement lifecycle management.",
 };
 

@@ -25,7 +25,7 @@ export function Sidebar({ currentUser }: { currentUser?: any }) {
           <div className="bg-indigo-600 p-1.5 rounded-lg flex items-center justify-center">
             <span className="text-white text-xs leading-none">❖</span>
           </div>
-          ProcureOS
+          Procoryx
         </h1>
       </div>
       <div className="flex-1 overflow-y-auto py-4 px-3">

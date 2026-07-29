@@ -48,7 +48,7 @@ export default function LoginPage() {
               <ShieldCheck className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-center text-slate-900 mb-2">Welcome to ProcureOS</h2>
+          <h2 className="text-2xl font-bold text-center text-slate-900 mb-2">Welcome to Procoryx</h2>
           <p className="text-center text-slate-500 mb-8 text-sm">Enter your enterprise credentials to access the platform.</p>
 
           <form onSubmit={handleLogin} className="space-y-4">
