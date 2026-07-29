@@ -16,6 +16,7 @@ export function PreBidDashboard() {
   
   const [activeTab, setActiveTab] = useState<'SCHEDULE' | 'QUERIES'>('SCHEDULE');
   const [resolvingQuery, setResolvingQuery] = useState<string | null>(null);
+  const [approvingQuery, setApprovingQuery] = useState<string | null>(null);
   
   // For demo purposes, allow user to change the Cal.com link if the default 404s
   const [calLink, setCalLink] = useState<string>("peer/meet");
@@ -41,14 +42,16 @@ export function PreBidDashboard() {
   };
 
   useEffect(() => {
-    (async function () {
-      const cal = await getCalApi({});
-      cal("ui", {
-        styles: { branding: { brandColor: "#4f46e5" } },
-        hideEventTypeDetails: true,
-        layout: "month_view"
-      });
-    })();
+    if (activeTab === 'SCHEDULE') {
+      (async function () {
+        const cal = await getCalApi({});
+        cal("ui", {
+          styles: { branding: { brandColor: "#4f46e5" } },
+          hideEventTypeDetails: true,
+          layout: "month_view"
+        });
+      })();
+    }
   }, [activeTab]);
 
   const handleAIResolve = async (queryId: string, question: string) => {
@@ -75,6 +78,13 @@ export function PreBidDashboard() {
     } finally {
       setResolvingQuery(null);
     }
+  };
+
+  const handleApprove = async (queryId: string) => {
+    setApprovingQuery(queryId);
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setApprovingQuery(null);
+    // In a real app we would update the backend here
   };
 
   if (loading) {
@@ -262,8 +272,13 @@ export function PreBidDashboard() {
                                 />
                                 <div className="flex justify-end mt-3 gap-2">
                                   <Button variant="outline" size="sm">Edit</Button>
-                                  <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                                    Approve & Send to Contractor
+                                  <Button 
+                                    size="sm" 
+                                    className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                                    onClick={() => handleApprove(query.id)}
+                                    disabled={approvingQuery === query.id}
+                                  >
+                                    {approvingQuery === query.id ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending...</> : 'Approve & Send to Contractor'}
                                   </Button>
                                 </div>
                               </div>
