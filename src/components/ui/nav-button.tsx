@@ -2,10 +2,10 @@
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Button, ButtonProps } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
-interface NavButtonProps extends ButtonProps {
+interface NavButtonProps extends React.ComponentProps<typeof Button> {
   href: string;
   children: React.ReactNode;
 }
