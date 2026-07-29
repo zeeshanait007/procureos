@@ -46,7 +46,6 @@ export function PreBidDashboard() {
       cal("ui", {
         styles: { branding: { brandColor: "#4f46e5" } },
         hideEventTypeDetails: true,
-        hideBranding: true,
         layout: "month_view"
       });
     })();
