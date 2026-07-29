@@ -8,10 +8,6 @@ export function middleware(request: NextRequest) {
 
   const token = request.cookies.get('mock_user_id')?.value || ''
 
-  if (isPublicPath && token) {
-    return NextResponse.redirect(new URL('/dashboard', request.nextUrl))
-  }
-
   if (!isPublicPath && !token) {
     return NextResponse.redirect(new URL('/login', request.nextUrl))
   }
@@ -23,6 +19,9 @@ export const config = {
     '/dashboard/:path*',
     '/cases/:path*',
     '/approvals/:path*',
+    '/pre-qualification/:path*',
+    '/tender-issuance/:path*',
+    '/pre-bid-meetings/:path*',
     '/risk-radar/:path*',
     '/settings/:path*',
     '/help/:path*',

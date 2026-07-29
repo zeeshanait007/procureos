@@ -9,6 +9,9 @@ import {
   Briefcase,
   LifeBuoy,
   CheckSquare,
+  Users,
+  Send,
+  Calendar,
 } from "lucide-react";
 
 export function Sidebar({ currentUser }: { currentUser?: any }) {
@@ -64,6 +67,42 @@ export function Sidebar({ currentUser }: { currentUser?: any }) {
                   }`}
                 >
                   <CheckSquare className={`w-4 h-4 ${pathname.startsWith("/approvals") ? "text-indigo-600" : "text-slate-400"}`} /> Approval Center
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/pre-qualification" 
+                  className={`flex items-center gap-3 px-2.5 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                    pathname.startsWith("/pre-qualification") 
+                      ? "bg-slate-200/50 text-slate-900" 
+                      : "text-slate-600 hover:bg-slate-200/50 hover:text-indigo-600"
+                  }`}
+                >
+                  <Users className={`w-4 h-4 ${pathname.startsWith("/pre-qualification") ? "text-indigo-600" : "text-slate-400"}`} /> Pre-Qualification
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/tender-issuance" 
+                  className={`flex items-center gap-3 px-2.5 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                    pathname.startsWith("/tender-issuance") 
+                      ? "bg-slate-200/50 text-slate-900" 
+                      : "text-slate-600 hover:bg-slate-200/50 hover:text-indigo-600"
+                  }`}
+                >
+                  <Send className={`w-4 h-4 ${pathname.startsWith("/tender-issuance") ? "text-indigo-600" : "text-slate-400"}`} /> Tender Issuance
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/pre-bid-meetings" 
+                  className={`flex items-center gap-3 px-2.5 py-2 text-[13px] font-medium rounded-md transition-colors ${
+                    pathname.startsWith("/pre-bid-meetings") 
+                      ? "bg-slate-200/50 text-slate-900" 
+                      : "text-slate-600 hover:bg-slate-200/50 hover:text-indigo-600"
+                  }`}
+                >
+                  <Calendar className={`w-4 h-4 ${pathname.startsWith("/pre-bid-meetings") ? "text-indigo-600" : "text-slate-400"}`} /> Pre-Bid Meetings
                 </Link>
               </li>
             </ul>

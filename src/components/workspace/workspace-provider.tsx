@@ -80,7 +80,7 @@ const defaultData: WorkspaceData = {
   publishStatus: null,
 };
 
-const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefined);
+export const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefined);
 
 import { useRouter } from "next/navigation";
 

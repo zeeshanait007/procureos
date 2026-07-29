@@ -26,6 +26,7 @@ async function main() {
   const rProcHead = await prisma.role.create({ data: { name: 'Procurement Head', description: 'Approves procurement strategy' } })
   const rCIO = await prisma.role.create({ data: { name: 'CIO / Technical Committee', description: 'Approves technical specifications' } })
   const rCompetentAuth = await prisma.role.create({ data: { name: 'Competent Authority', description: 'Final approving authority for NIT' } })
+  const rPlatformOwner = await prisma.role.create({ data: { name: 'Platform Owner', description: 'System Administrator with full access' } })
 
   // 3. Users
   const uBusiness = await prisma.user.create({ data: { name: 'Alice (Business Head)', email: 'alice@acme.com', roleId: rBusinessHead.id, orgId: org.id } })
@@ -33,6 +34,7 @@ async function main() {
   const uProcure = await prisma.user.create({ data: { name: 'Charlie (CPO)', email: 'charlie@acme.com', roleId: rProcHead.id, orgId: org.id } })
   const uCIO = await prisma.user.create({ data: { name: 'Diana (CIO)', email: 'diana@acme.com', roleId: rCIO.id, orgId: org.id } })
   const uAuthority = await prisma.user.create({ data: { name: 'Eve (Competent Authority)', email: 'eve@acme.com', roleId: rCompetentAuth.id, orgId: org.id } })
+  const uAdmin = await prisma.user.create({ data: { name: 'Admin (Platform Owner)', email: 'admin@acme.com', roleId: rPlatformOwner.id, orgId: org.id } })
 
   // 4. Matrix Rules (Simple for Demo)
   await prisma.approvalMatrix.create({ data: { gateType: 'ADMINISTRATIVE', approverRoleId: rBusinessHead.id } })
@@ -141,6 +143,37 @@ async function main() {
       { caseId: pCase.id, userId: uBusiness.id, gateId: g2.id, action: 'SUBMITTED', comment: 'Requested financial clearance' },
       { caseId: pCase.id, userId: uFinance.id, gateId: g2.id, action: 'APPROVED', comment: 'Budget cleared' },
       { caseId: pCase.id, userId: uBusiness.id, gateId: g3.id, action: 'SUBMITTED', comment: 'Strategy proposed: Open e-Tender' }
+    ]
+  })
+
+  // 8. Pre-Qualification Contractors & Applications
+  const c1 = await prisma.contractor.create({ data: { name: 'TechCorp Industrial AI', registrationNo: 'TC-9921-X', contactEmail: 'bids@techcorp.com', country: 'USA' } })
+  const c2 = await prisma.contractor.create({ data: { name: 'Global Solutions Ltd', registrationNo: 'GS-1100-A', contactEmail: 'sales@globalsolutions.co.uk', country: 'UK' } })
+  const c3 = await prisma.contractor.create({ data: { name: 'Apex Innovations', registrationNo: 'APX-4432-B', contactEmail: 'tenders@apexinnovations.in', country: 'India' } })
+
+  await prisma.preQualificationApplication.createMany({
+    data: [
+      {
+        caseId: pCase.id,
+        contractorId: c1.id,
+        status: 'PENDING',
+        orgStructureData: JSON.stringify({ employees: 450, subsidiaries: 3, coreCompetency: 'Industrial IoT & AI' }),
+        financialStabilityData: JSON.stringify({ annualTurnoverM: 4.5, yearsInBusiness: 8, creditRating: 'A+' })
+      },
+      {
+        caseId: pCase.id,
+        contractorId: c2.id,
+        status: 'PENDING',
+        orgStructureData: JSON.stringify({ employees: 1200, subsidiaries: 12, coreCompetency: 'Enterprise Software Solutions' }),
+        financialStabilityData: JSON.stringify({ annualTurnoverM: 1.2, yearsInBusiness: 15, creditRating: 'BBB' }) // Low turnover
+      },
+      {
+        caseId: pCase.id,
+        contractorId: c3.id,
+        status: 'PENDING',
+        orgStructureData: JSON.stringify({ employees: 85, subsidiaries: 0, coreCompetency: 'Predictive Analytics' }),
+        financialStabilityData: JSON.stringify({ annualTurnoverM: 2.1, yearsInBusiness: 6, creditRating: 'A' })
+      }
     ]
   })
 

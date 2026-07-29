@@ -51,6 +51,8 @@ model ProcurementCase {
   approvalGates     ApprovalGate[]
   auditEvents       AuditEvent[]
   documents         Document[]
+  pqApplications    PreQualificationApplication[]
+  preBidMeeting     PreBidMeeting?
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -120,4 +122,69 @@ model Document {
   
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
+}
+
+model Contractor {
+  id             String  @id @default(cuid())
+  name           String
+  registrationNo String?
+  contactEmail   String?
+  contactPhone   String?
+  country        String?
+  
+  applications   PreQualificationApplication[]
+  preBidQueries  PreBidQuery[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model PreQualificationApplication {
+  id                     String          @id @default(cuid())
+  caseId                 String
+  case                   ProcurementCase @relation(fields: [caseId], references: [id])
+  contractorId           String
+  contractor             Contractor      @relation(fields: [contractorId], references: [id])
+  
+  status                 String          @default("SUBMITTED") // SUBMITTED, IN_REVIEW, SHORTLISTED, REJECTED
+  
+  orgStructureData       String?         // JSON
+  financialStabilityData String?         // JSON
+  
+  aiEvaluationSummary    String?
+  aiScore                Float?
+  aiRecommendation       String?
+  
+  evalScore              Float?
+  evalComments           String?
+  
+  createdAt              DateTime        @default(now())
+  updatedAt              DateTime        @updatedAt
+}
+
+model PreBidMeeting {
+  id              String   @id @default(cuid())
+  caseId          String   @unique
+  case            ProcurementCase @relation(fields: [caseId], references: [id])
+  scheduledDate   DateTime
+  meetingLink     String?
+  agenda          String?
+  status          String   @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED
+  queries         PreBidQuery[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PreBidQuery {
+  id                String   @id @default(cuid())
+  meetingId         String
+  meeting           PreBidMeeting @relation(fields: [meetingId], references: [id])
+  contractorId      String
+  contractor        Contractor @relation(fields: [contractorId], references: [id])
+  question          String
+  aiSuggestedAnswer String?
+  finalAnswer       String?
+  status            String   @default("PENDING") // PENDING, ANSWERED
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }

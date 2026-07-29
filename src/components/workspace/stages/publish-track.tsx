@@ -7,9 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { CheckCircle2, DownloadCloud, Eye, Globe2, Sparkles, Timer, Loader2, Target, Send, FileSignature, ShieldAlert } from "lucide-react";
 import { useWorkspace } from "@/components/workspace/workspace-provider";
+import { useRouter } from "next/navigation";
 import { publishTenderAction } from "@/app/actions/ai-actions";
 
-export function PublishTrackStage({ approvalGates = [] }: { approvalGates?: any[] }) {
+export function PublishTrackStage({ approvalGates = [], nextStage }: { approvalGates?: any[], nextStage?: string }) {
+  const router = useRouter();
   const { data, updateData } = useWorkspace();
   const [isPublishing, setIsPublishing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -315,6 +317,17 @@ export function PublishTrackStage({ approvalGates = [] }: { approvalGates?: any[
               </DialogContent>
             </Dialog>
           </div>
+          
+          {nextStage && (
+            <div className="flex justify-end pt-4 border-t border-slate-100">
+              <Button 
+                onClick={() => router.push(`?stage=${nextStage}`)}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white"
+              >
+                Continue to Tender Issuance
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>

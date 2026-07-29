@@ -92,11 +92,25 @@ export default async function RiskRadar() {
   const topAlerts = allAlerts.slice(0, 5);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-10">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Risk Radar</h1>
-        <p className="text-slate-500 mt-1">AI-driven identification of bottlenecks, legal risks, and budget overruns.</p>
+    <div className="flex-1 flex flex-col min-w-0 overflow-y-auto relative bg-slate-50">
+      <div className="h-16 border-b border-slate-200 px-6 bg-white sticky top-0 z-10 flex items-center shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="bg-rose-100 p-2 rounded-lg">
+            <AlertTriangle className="w-5 h-5 text-rose-700" />
+          </div>
+          <div>
+            <h2 className="text-[15px] font-bold text-slate-900 truncate">
+              Risk Radar
+            </h2>
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+              AI-driven identification of bottlenecks, legal risks, and budget overruns
+            </p>
+          </div>
+        </div>
       </div>
+      
+      <div className="p-6">
+        <div className="space-y-6 max-w-7xl mx-auto pb-10">
 
       {/* Risk Summary Tiles */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -219,6 +233,8 @@ export default async function RiskRadar() {
             </div>
           </CardContent>
         </Card>
+      </div>
+        </div>
       </div>
     </div>
   );
