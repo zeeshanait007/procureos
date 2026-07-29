@@ -23,9 +23,17 @@ export async function POST(req: Request) {
     }
 
     // 2. Create the user record in Prisma
-    const org = await prisma.organisation.findFirst();
+    let org = await prisma.organisation.findFirst();
     if (!org) {
-      return NextResponse.json({ error: "System not initialized properly" }, { status: 500 });
+      // Auto-provision default organisation and roles for the first user
+      org = await prisma.organisation.create({
+        data: { name: 'Acme Corporation' }
+      });
+      
+      // Auto-provision the requested role so it exists
+      await prisma.role.create({
+        data: { id: roleId, name: 'Default Role', description: 'Auto-provisioned role' }
+      });
     }
 
     const newUser = await prisma.user.create({

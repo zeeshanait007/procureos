@@ -1,16 +1,9 @@
 import { NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
 
-export async function POST() {
-  const response = NextResponse.json({ success: true });
-  
-  // Clear cookie
-  response.cookies.set({
-    name: "mock_user_id",
-    value: "",
-    httpOnly: true,
-    path: "/",
-    expires: new Date(0),
-  });
-
-  return response;
+export async function GET(request: Request) {
+  const requestUrl = new URL(request.url);
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  return NextResponse.redirect(new URL('/login', requestUrl.origin));
 }

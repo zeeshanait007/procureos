@@ -11,7 +11,7 @@ export function SignupForm({ roles }: { roles: any[] }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [roleId, setRoleId] = useState(roles[0]?.id || "");
+  const [roleId, setRoleId] = useState(roles[0]?.id || "default-role-id");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -103,9 +103,11 @@ export function SignupForm({ roles }: { roles: any[] }) {
                 onChange={(e) => setRoleId(e.target.value)}
                 className="w-full h-11 px-4 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm bg-white"
               >
-                {roles.map(r => (
+                {roles.length > 0 ? roles.map(r => (
                   <option key={r.id} value={r.id}>{r.name}</option>
-                ))}
+                )) : (
+                  <option value="default-role-id">Default Role</option>
+                )}
               </select>
             </div>
 

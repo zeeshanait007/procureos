@@ -13,7 +13,7 @@ export default async function AppLayout({
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    redirect("/login");
+    redirect("/api/auth/logout");
   }
 
   return (
