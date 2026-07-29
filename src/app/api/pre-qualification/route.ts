@@ -48,7 +48,7 @@ export async function GET(request: Request) {
         // Re-fetch after seeding
         applications = await prisma.preQualificationApplication.findMany({
           where: { caseId },
-          include: { contractor: true },
+          include: { contractor: true, case: true },
           orderBy: { createdAt: 'desc' }
         });
       }
