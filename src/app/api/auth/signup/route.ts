@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       
       // Auto-provision the requested role so it exists
       await prisma.role.create({
-        data: { id: roleId, name: 'Default Role', description: 'Auto-provisioned role' }
+        data: { id: roleId, name: 'Platform Owner', description: 'Auto-provisioned Admin role' }
       });
     }
 
