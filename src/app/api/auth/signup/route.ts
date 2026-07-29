@@ -36,6 +36,11 @@ export async function POST(req: Request) {
       });
     }
 
+    let existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      return NextResponse.json({ success: true, user: existingUser });
+    }
+
     const newUser = await prisma.user.create({
       data: {
         id: authData.user?.id, // Use Supabase Auth ID
