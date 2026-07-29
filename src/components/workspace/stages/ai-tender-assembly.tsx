@@ -34,7 +34,7 @@ export function AITenderAssembly({ nextStage }: { nextStage?: string }) {
     if (result.success && result.data) {
       updateData({ tenderDraft: result.data });
     } else {
-      setError(result.error || "Failed to generate tender draft");
+      setError((result as any).error || "Failed to generate tender draft");
     }
   };
 
