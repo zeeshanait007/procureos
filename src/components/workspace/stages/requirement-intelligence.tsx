@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { NavButton } from "@/components/ui/nav-button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Sparkles, Target, AlertTriangle, IndianRupee, Loader2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -63,9 +64,9 @@ export function RequirementIntelligence({ nextStage }: { nextStage?: string }) {
         </div>
         <div className="flex gap-2">
           {nextStage && data.structuredRequirements && (
-            <Button onClick={() => router.push(`${pathname}?stage=${nextStage}`)} className="bg-indigo-600 hover:bg-indigo-700">
+            <NavButton href={`${pathname}?stage=${nextStage}`} className="bg-indigo-600 hover:bg-indigo-700 text-white">
               Proceed to Market Benchmarking <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
+            </NavButton>
           )}
         </div>
       </div>
