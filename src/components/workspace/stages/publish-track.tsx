@@ -29,7 +29,7 @@ export function PublishTrackStage({ approvalGates = [], nextStage }: { approvalG
     if (result.success && result.data) {
       updateData({ publishStatus: result.data });
     } else {
-      setError(result.error || "Failed to publish tender");
+      setError((result as any).error || "Failed to publish tender");
     }
   };
 

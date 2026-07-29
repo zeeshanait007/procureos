@@ -38,7 +38,7 @@ export function RequirementIntelligence({ nextStage }: { nextStage?: string }) {
         estimatedBudgetCr: result.data.estimatedBudgetCr || 0,
       });
     } else {
-      setError(result.error || "Failed to analyze requirements");
+      setError((result as any).error || "Failed to analyze requirements");
     }
   };
 

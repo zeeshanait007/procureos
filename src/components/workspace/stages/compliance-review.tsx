@@ -32,7 +32,7 @@ export function ComplianceReview({ nextStage }: { nextStage?: string }) {
     if (result.success && result.data && result.data.alerts) {
       updateData({ complianceAlerts: result.data.alerts });
     } else {
-      setError(result.error || "Failed to run compliance check");
+      setError((result as any).error || "Failed to run compliance check");
     }
   };
 

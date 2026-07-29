@@ -29,7 +29,7 @@ export function MarketBenchmarking({ nextStage }: { nextStage?: string }) {
     if (result.success && result.data) {
       updateData({ marketData: result.data });
     } else {
-      setError(result.error || "Failed to generate market data");
+      setError((result as any).error || "Failed to generate market data");
     }
   };
 
