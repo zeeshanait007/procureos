@@ -54,6 +54,8 @@ export function PreBidDashboard() {
     }
   }, [activeTab]);
 
+  const [editedAnswers, setEditedAnswers] = useState<Record<string, string>>({});
+
   const handleAIResolve = async (queryId: string, question: string) => {
     setResolvingQuery(queryId);
     
@@ -69,7 +71,7 @@ export function PreBidDashboard() {
         body: JSON.stringify({
           id: queryId,
           aiSuggestedAnswer: suggestedAnswer,
-          status: "ANSWERED"
+          status: "DRAFTED"
         })
       });
       await fetchMeetings(); // refresh
@@ -80,11 +82,25 @@ export function PreBidDashboard() {
     }
   };
 
-  const handleApprove = async (queryId: string) => {
+  const handleApprove = async (queryId: string, defaultAnswer: string) => {
+    const finalAnswer = editedAnswers[queryId] ?? defaultAnswer;
     setApprovingQuery(queryId);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setApprovingQuery(null);
-    // In a real app we would update the backend here
+    try {
+      await fetch("/api/pre-bid-queries", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: queryId,
+          finalAnswer: finalAnswer,
+          status: "ANSWERED"
+        })
+      });
+      await fetchMeetings();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setApprovingQuery(null);
+    }
   };
 
   if (loading) {
@@ -215,7 +231,7 @@ export function PreBidDashboard() {
                       </div>
                     ) : (
                       activeMeeting.queries?.map((query: any) => (
-                        <Card key={query.id} className={`overflow-hidden border-2 transition-all ${query.status === 'ANSWERED' ? 'border-emerald-100 bg-emerald-50/10' : 'border-amber-100 bg-amber-50/30'}`}>
+                        <Card key={query.id} className={`overflow-hidden border-2 transition-all ${query.status === 'ANSWERED' ? 'border-emerald-100 bg-emerald-50/10' : query.status === 'DRAFTED' ? 'border-indigo-100 bg-indigo-50/10' : 'border-amber-100 bg-amber-50/30'}`}>
                           <div className="p-4 border-b bg-white/50 flex justify-between items-center">
                             <div className="flex items-center gap-3">
                               <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
@@ -229,6 +245,10 @@ export function PreBidDashboard() {
                             {query.status === 'ANSWERED' ? (
                               <Badge variant="outline" className="bg-emerald-100 text-emerald-700 border-emerald-200 gap-1">
                                 <CheckCircle2 className="w-3 h-3" /> Answered
+                              </Badge>
+                            ) : query.status === 'DRAFTED' ? (
+                              <Badge variant="outline" className="bg-indigo-100 text-indigo-700 border-indigo-200 gap-1">
+                                <Brain className="w-3 h-3" /> Drafted
                               </Badge>
                             ) : (
                               <Badge variant="outline" className="bg-amber-100 text-amber-700 border-amber-200 gap-1">
@@ -259,28 +279,37 @@ export function PreBidDashboard() {
                                   )}
                                 </Button>
                               </div>
-                            ) : (
+                            ) : query.status === 'DRAFTED' || (query.status === 'ANSWERED' && !query.finalAnswer) ? (
                               <div className="pt-2">
                                 <div className="flex items-center gap-2 mb-2">
-                                  <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Drafted Answer</p>
+                                  <p className="text-xs font-bold text-indigo-600 uppercase tracking-wider">Drafted Answer</p>
                                   <Badge variant="outline" className="text-[10px] bg-slate-100 text-slate-500 h-5">AI Generated</Badge>
                                 </div>
                                 <Textarea 
-                                  defaultValue={query.aiSuggestedAnswer || ''}
-                                  className="text-sm bg-white border-emerald-200 focus-visible:ring-emerald-500"
+                                  value={editedAnswers[query.id] !== undefined ? editedAnswers[query.id] : (query.aiSuggestedAnswer || '')}
+                                  onChange={(e) => setEditedAnswers({ ...editedAnswers, [query.id]: e.target.value })}
+                                  className="text-sm bg-white border-indigo-200 focus-visible:ring-indigo-500"
                                   rows={4}
                                 />
                                 <div className="flex justify-end mt-3 gap-2">
-                                  <Button variant="outline" size="sm">Edit</Button>
                                   <Button 
                                     size="sm" 
                                     className="bg-emerald-600 hover:bg-emerald-700 text-white"
-                                    onClick={() => handleApprove(query.id)}
+                                    onClick={() => handleApprove(query.id, query.aiSuggestedAnswer || '')}
                                     disabled={approvingQuery === query.id}
                                   >
                                     {approvingQuery === query.id ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending...</> : 'Approve & Send to Contractor'}
                                   </Button>
                                 </div>
+                              </div>
+                            ) : (
+                              <div className="pt-2">
+                                <div className="flex items-center gap-2 mb-2">
+                                  <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Final Answer Sent</p>
+                                </div>
+                                <p className="text-sm text-slate-800 font-medium bg-emerald-50/50 p-3 rounded-md border border-emerald-100 shadow-sm">
+                                  {query.finalAnswer}
+                                </p>
                               </div>
                             )}
                           </div>
