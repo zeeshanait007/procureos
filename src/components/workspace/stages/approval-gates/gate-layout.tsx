@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { CheckCircle2, XCircle, FileEdit, Clock, ShieldAlert } from "lucide-react"
+import { CheckCircle2, XCircle, FileEdit, Clock, ShieldAlert, Loader2 } from "lucide-react"
 
 interface GateLayoutProps {
   gate: any
@@ -20,7 +20,7 @@ import { useState } from "react"
 // ...
 export function GateLayout({ gate, currentUser, title, description, children, aiPanel, onApprove, onReject, onRequestChanges, onEditDraft }: GateLayoutProps) {
   const [commentText, setCommentText] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submittingAction, setSubmittingAction] = useState<'approve' | 'reject' | 'changes' | null>(null)
   const [isReevaluating, setIsReevaluating] = useState(false)
   
   const isLocked = gate.status === 'LOCKED'
@@ -32,7 +32,7 @@ export function GateLayout({ gate, currentUser, title, description, children, ai
   const isAuthorized = isSuperAdmin || currentUser?.id === gate.assignedApproverId
 
   const handleAction = async (action: 'approve' | 'reject' | 'changes') => {
-    setIsSubmitting(true)
+    setSubmittingAction(action)
     const text = commentText.trim() || (action === 'approve' ? 'Approved' : action === 'reject' ? 'Rejected' : 'Changes Requested')
     try {
       if (action === 'approve') await onApprove(text)
@@ -40,7 +40,7 @@ export function GateLayout({ gate, currentUser, title, description, children, ai
       if (action === 'changes') await onRequestChanges(text)
       setIsReevaluating(false)
     } finally {
-      setIsSubmitting(false)
+      setSubmittingAction(null)
     }
   }
 
@@ -121,17 +121,17 @@ export function GateLayout({ gate, currentUser, title, description, children, ai
                         onChange={(e) => setCommentText(e.target.value)}
                         placeholder="Enter your comments or justification here..." 
                         className="bg-slate-50" 
-                        disabled={isSubmitting}
+                        disabled={submittingAction !== null}
                       />
                       <div className="flex items-center gap-3">
-                        <Button disabled={isSubmitting} onClick={() => handleAction('approve')} className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
-                          <CheckCircle2 className="w-4 h-4" /> Approve
+                        <Button disabled={submittingAction !== null} onClick={() => handleAction('approve')} className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
+                          {submittingAction === 'approve' ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />} Approve
                         </Button>
-                        <Button disabled={isSubmitting} onClick={() => handleAction('changes')} variant="outline" className="text-amber-700 border-amber-200 bg-amber-50 hover:bg-amber-100 gap-2">
-                          <FileEdit className="w-4 h-4" /> Request Changes
+                        <Button disabled={submittingAction !== null} onClick={() => handleAction('changes')} variant="outline" className="text-amber-700 border-amber-200 bg-amber-50 hover:bg-amber-100 gap-2">
+                          {submittingAction === 'changes' ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileEdit className="w-4 h-4" />} Request Changes
                         </Button>
-                        <Button disabled={isSubmitting} onClick={() => handleAction('reject')} variant="ghost" className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 gap-2">
-                          <XCircle className="w-4 h-4" /> Reject
+                        <Button disabled={submittingAction !== null} onClick={() => handleAction('reject')} variant="ghost" className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 gap-2">
+                          {submittingAction === 'reject' ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="w-4 h-4" />} Reject
                         </Button>
                       </div>
                     </>
