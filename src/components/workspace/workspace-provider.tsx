@@ -9,18 +9,19 @@ export interface Ambiguity {
 
 export interface MarketData {
   marketPredictionCr: number;
-  variancePercentage: number;
-  sources: string[];
-  itemizedCosts: {
+  variancePercentage?: number;
+  sources?: string[];
+  itemizedCosts?: {
     component: string;
     marketAvg: string;
     ourEst: string;
   }[];
   vendorFunnel: {
-    eligibleVendors: string;
-    totalPool: number;
-    passFinancial: number;
-    passTechnical: number;
+    eligibleVendors: string | number;
+    totalPool?: number;
+    passFinancial?: number;
+    passTechnical?: number;
+    totalIdentified?: number;
   };
 }
 
