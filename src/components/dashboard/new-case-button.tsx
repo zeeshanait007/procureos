@@ -50,11 +50,13 @@ export function NewCaseButton() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm">
-          <Plus className="w-4 h-4 mr-2" />
-          New Procurement Case
-        </Button>
+      <DialogTrigger 
+        render={
+          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm" />
+        }
+      >
+        <Plus className="w-4 h-4 mr-2" />
+        New Procurement Case
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
