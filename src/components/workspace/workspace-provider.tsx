@@ -60,6 +60,8 @@ export interface WorkspaceData {
   tenderDraft: TenderDraft | null;
   complianceAlerts: ComplianceAlert[];
   publishStatus: PublishStatus | null;
+  tenderIssued?: boolean;
+  issuedAt?: string;
 }
 
 interface WorkspaceContextType {
