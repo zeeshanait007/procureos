@@ -213,8 +213,12 @@ export function PublishTrackStage({ approvalGates = [], nextStage }: { approvalG
                       <DownloadCloud className="w-4 h-4" /> 
                       <span className="hidden sm:inline">Download PDF</span>
                     </Button>
-                    <DialogClose asChild>
-                      <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-900">Close</Button>
+                    <DialogClose 
+                      render={
+                        <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700 bg-slate-100/50 hover:bg-slate-100" />
+                      }
+                    >
+                      Close
                     </DialogClose>
                   </div>
                 </div>
