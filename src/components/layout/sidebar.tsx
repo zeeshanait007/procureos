@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -22,9 +23,7 @@ export function Sidebar({ currentUser }: { currentUser?: any }) {
     <div className="flex h-screen w-[260px] flex-col border-r border-slate-200 bg-slate-50/50 text-slate-600 shrink-0">
       <div className="flex h-16 items-center px-5 shrink-0">
         <h1 className="text-[15px] font-bold text-slate-900 tracking-wide flex items-center gap-2.5">
-          <div className="bg-indigo-600 p-1.5 rounded-lg flex items-center justify-center">
-            <span className="text-white text-xs leading-none">❖</span>
-          </div>
+          <Image src="/logo.png" alt="Procoryx Logo" width={32} height={32} className="object-contain" />
           Procoryx
         </h1>
       </div>

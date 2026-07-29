@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, Loader2 } from "lucide-react";
@@ -46,9 +47,7 @@ export function SignupForm({ roles }: { roles: any[] }) {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
         <div className="p-8">
           <div className="flex justify-center mb-6">
-            <div className="bg-indigo-600 p-2 rounded-xl flex items-center justify-center">
-              <ShieldCheck className="w-8 h-8 text-white" />
-            </div>
+            <Image src="/logo.png" alt="Procoryx Logo" width={80} height={80} className="object-contain" />
           </div>
           <h2 className="text-2xl font-bold text-center text-slate-900 mb-2">Create an Account</h2>
           <p className="text-center text-slate-500 mb-8 text-sm">Register to access the Procoryx enterprise platform.</p>
