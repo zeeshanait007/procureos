@@ -30,6 +30,8 @@ export interface TenderDraft {
   biddingMethod: string;
   scopeOfWork: string;
   keyDeliverables: string[];
+  preQualificationCriteria?: any[];
+  financialBidFormat?: any[];
 }
 
 export interface ComplianceAlert {
