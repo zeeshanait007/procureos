@@ -43,16 +43,18 @@ export function DeleteCaseButton({ caseId }: { caseId: string }) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          disabled={isDeleting}
-          className="text-slate-400 hover:text-rose-600 hover:bg-rose-50 h-8 w-8"
-          title="Delete Case"
-        >
-          {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
-        </Button>
+      <AlertDialogTrigger 
+        render={
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            disabled={isDeleting}
+            className="text-slate-400 hover:text-rose-600 hover:bg-rose-50 h-8 w-8"
+            title="Delete Case"
+          />
+        }
+      >
+        {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
