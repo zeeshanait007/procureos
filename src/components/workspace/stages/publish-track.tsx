@@ -193,10 +193,12 @@ export function PublishTrackStage({ approvalGates = [], nextStage }: { approvalG
 
           <div className="flex justify-center pt-8">
             <Dialog>
-              <DialogTrigger asChild>
-                <Button size="lg" variant="outline" className="text-indigo-600 border-indigo-200 hover:bg-indigo-50">
-                  <FileSignature className="mr-2 w-5 h-5" /> View Published NIT Document
-                </Button>
+              <DialogTrigger 
+                render={
+                  <Button size="lg" variant="outline" className="text-indigo-600 border-indigo-200 hover:bg-indigo-50" />
+                }
+              >
+                <FileSignature className="mr-2 w-5 h-5" /> View Published NIT Document
               </DialogTrigger>
               <DialogContent className="w-[95vw] xl:w-[90vw] max-w-[95vw] h-[90vh] rounded-2xl overflow-hidden p-0 bg-white flex flex-col shadow-2xl">
                 {/* Header Bar */}
