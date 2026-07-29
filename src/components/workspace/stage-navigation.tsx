@@ -1,5 +1,8 @@
-import { CheckCircle2, CircleDashed, ArrowRightCircle, Lock, AlertTriangle, ShieldCheck, FileCheck } from "lucide-react";
+"use client";
+import { useState, useTransition } from "react";
+import { CheckCircle2, CircleDashed, ArrowRightCircle, Lock, AlertTriangle, ShieldCheck, FileCheck, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 
 const CREATION_STAGES = [
@@ -32,6 +35,21 @@ function getGateBadge(status: string) {
 
 export function StageNavigation({ activeStage, activeGate, gates = [] }: { activeStage?: string, activeGate?: string, gates?: any[] }) {
   
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+  const [loadingHref, setLoadingHref] = useState<string | null>(null);
+
+  // Clear loading state when search parameters change (navigation completes)
+  // useTransition handles pending state, but we manually track which link was clicked
+  const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setLoadingHref(href);
+    startTransition(() => {
+      router.push(href);
+    });
+  };
+
   return (
     <div className="flex flex-col h-full bg-[#FBFBFC]">
       <div className="px-5 h-16 border-b border-slate-200 bg-white flex flex-col justify-center shrink-0">
@@ -55,17 +73,22 @@ export function StageNavigation({ activeStage, activeGate, gates = [] }: { activ
               <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-9 mb-3">Workspace Stages</h4>
               {CREATION_STAGES.map((stage, index) => {
                 const isActive = stage.id === activeStage;
+                const href = `?stage=${stage.id}`;
+                const isLoading = isPending && loadingHref === href;
                 
                 return (
-                  <Link
+                  <a
                     key={stage.id}
-                    href={`?stage=${stage.id}`}
+                    href={href}
+                    onClick={(e) => handleNav(e, href)}
                     className={`group relative flex items-start gap-3 p-2 -mx-2 rounded-lg transition-all duration-200 ${
-                      isActive ? "bg-white shadow-sm border border-slate-200" : "hover:bg-slate-200/50 opacity-80 hover:opacity-100"
+                      isActive ? "bg-white shadow-sm border border-slate-200" : "hover:bg-slate-200/50 opacity-80 hover:opacity-100 cursor-pointer"
                     }`}
                   >
                     <div className="relative z-10 flex items-center justify-center w-5 h-5 mt-0.5 rounded-full bg-[#FBFBFC] transition-colors duration-200">
-                      {isActive ? (
+                      {isLoading ? (
+                        <Loader2 className="w-4 h-4 text-indigo-600 animate-spin" />
+                      ) : isActive ? (
                         <div className="relative flex items-center justify-center">
                           <ArrowRightCircle className="w-5 h-5 text-indigo-600 fill-indigo-50" />
                         </div>
@@ -79,7 +102,7 @@ export function StageNavigation({ activeStage, activeGate, gates = [] }: { activ
                         {stage.name}
                       </span>
                     </div>
-                  </Link>
+                  </a>
                 );
               })}
             </div>
@@ -91,17 +114,24 @@ export function StageNavigation({ activeStage, activeGate, gates = [] }: { activ
               </h4>
               {gates.map((gate) => {
                 const isActive = gate.gateType === activeGate;
+                const href = `?gate=${gate.gateType}`;
+                const isLoading = isPending && loadingHref === href;
                 
                 return (
-                  <Link
+                  <a
                     key={gate.id}
-                    href={`?gate=${gate.gateType}`}
+                    href={href}
+                    onClick={(e) => handleNav(e, href)}
                     className={`group relative flex items-start gap-3 p-2 -mx-2 rounded-lg transition-all duration-200 ${
-                      isActive ? "bg-indigo-50 border border-indigo-200 shadow-sm" : "hover:bg-slate-200/50 opacity-90 hover:opacity-100"
+                      isActive ? "bg-indigo-50 border border-indigo-200 shadow-sm" : "hover:bg-slate-200/50 opacity-90 hover:opacity-100 cursor-pointer"
                     }`}
                   >
                     <div className="relative z-10 flex items-center justify-center w-5 h-5 mt-0.5 rounded-full bg-[#FBFBFC] transition-colors duration-200">
-                      {getGateIcon(gate.status)}
+                      {isLoading ? (
+                        <Loader2 className="w-4 h-4 text-indigo-600 animate-spin" />
+                      ) : (
+                        getGateIcon(gate.status)
+                      )}
                     </div>
                     
                     <div className="flex-1 min-w-0 space-y-1">
@@ -110,7 +140,7 @@ export function StageNavigation({ activeStage, activeGate, gates = [] }: { activ
                       </span>
                       {getGateBadge(gate.status)}
                     </div>
-                  </Link>
+                  </a>
                 );
               })}
             </div>

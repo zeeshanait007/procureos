@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { NavButton } from '@/components/ui/nav-button';
 import { prisma } from '@/lib/prisma';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -57,12 +58,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ f
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Link 
+                  <NavButton 
                     href={`/cases/${pc.id}`} 
-                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-slate-900 text-white hover:bg-slate-800 h-9 px-4 py-2 w-full"
+                    className="w-full bg-slate-900 text-white hover:bg-slate-800"
                   >
                     Open Workspace
-                  </Link>
+                  </NavButton>
                 </CardContent>
               </Card>
             ))}

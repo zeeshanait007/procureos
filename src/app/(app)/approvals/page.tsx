@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { NavButton } from '@/components/ui/nav-button'
 import { Clock, CheckCircle2, AlertTriangle, Lock } from 'lucide-react'
 import Link from 'next/link'
 
@@ -124,10 +125,8 @@ export default async function ApprovalCenterPage() {
                     <h3 className="text-lg font-bold text-slate-900 leading-tight">{gate.case.title}</h3>
                     <p className="text-sm text-slate-500">Value: ₹{(gate.case.estimatedValue! / 10000000).toFixed(2)} Cr</p>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <Link href={`/cases/${gate.caseId}?gate=${gate.gateType}`}>
-                      <Button className="bg-indigo-600 hover:bg-indigo-700">Review & Approve</Button>
-                    </Link>
+                  <div className="flex gap-2">
+                    <NavButton href={`/cases/${gate.caseId}?gate=${gate.gateType}`} className="bg-indigo-600 hover:bg-indigo-700">Review & Approve</NavButton>
                   </div>
                 </div>
               ))}
