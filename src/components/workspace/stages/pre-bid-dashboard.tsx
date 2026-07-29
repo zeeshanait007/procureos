@@ -176,7 +176,7 @@ export function PreBidDashboard() {
                     <Cal 
                       calLink={calLink} 
                       style={{ width: "100%", height: "100%" }}
-                      config={{ layout: 'month_view', hideEventTypeDetails: true, hideBranding: true }}
+                      config={{ layout: 'month_view' }}
                     />
                     {/* White overlay mask to hide the "Powered by Cal.com" footer watermark */}
                     <div className="absolute bottom-0 left-0 right-0 h-[45px] bg-white z-10 flex items-center justify-center">
