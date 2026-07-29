@@ -114,7 +114,7 @@ export function MarketBenchmarking({ nextStage }: { nextStage?: string }) {
                 </div>
                 <div className="text-3xl font-bold text-indigo-950 tracking-tight">₹{data.marketData.marketPredictionCr} Cr</div>
                 <p className="text-xs text-indigo-700 mt-2">
-                  {data.marketData.variancePercentage > 0 ? "+" : ""}{data.marketData.variancePercentage}% variance from your budget.
+                  {(data.marketData.variancePercentage || 0) > 0 ? "+" : ""}{data.marketData.variancePercentage || 0}% variance from your budget.
                 </p>
               </CardContent>
             </Card>
