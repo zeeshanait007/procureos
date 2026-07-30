@@ -12,14 +12,14 @@ export function BudgetApprovalGate({ caseData }: { caseData: any }) {
         </div>
         <div className="bg-emerald-50 p-6 rounded-xl border border-emerald-100">
           <h4 className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">Budget Available (FY26)</h4>
-          <p className="text-3xl font-extrabold text-emerald-900">₹50.00 Crores</p>
+          <p className="text-3xl font-extrabold text-emerald-900">₹250.00 Crores</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-x-12 gap-y-6">
         <div>
           <div className="text-xs font-semibold text-slate-500 uppercase mb-1">Budget Head</div>
-          <div className="font-medium text-slate-900">IT Infrastructure & Software (844-01-IT)</div>
+          <div className="font-medium text-slate-900">Blast Furnace Modernization & CAPEX (BOK-BF-05)</div>
         </div>
         <div>
           <div className="text-xs font-semibold text-slate-500 uppercase mb-1">Expenditure Type</div>
@@ -27,11 +27,11 @@ export function BudgetApprovalGate({ caseData }: { caseData: any }) {
         </div>
         <div>
           <div className="text-xs font-semibold text-slate-500 uppercase mb-1">Funding Source</div>
-          <div className="font-medium text-slate-900">Internal Accruals</div>
+          <div className="font-medium text-slate-900">Plant Modernization Fund (PMF)</div>
         </div>
         <div>
           <div className="text-xs font-semibold text-slate-500 uppercase mb-1">Multi-Year Commitment</div>
-          <div className="font-medium text-slate-900">Yes (24 Months)</div>
+          <div className="font-medium text-slate-900">Yes (36 Months)</div>
         </div>
       </div>
     </div>

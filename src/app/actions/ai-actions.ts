@@ -23,14 +23,14 @@ export async function analyzeRequirementsAction(text: string) {
     return { 
       success: true, 
       data: {
-        structuredRequirements: "REQ-01: Supply of ruggedized industrial workstations (Qty 50).\nREQ-02: Operating temperature tolerance up to 55°C and high-dust resistance.\nREQ-03: Minimum 16GB ECC RAM, dual gigabit ethernet, redundant power supplies.\nREQ-04: Legacy RS-232 serial connection support.\nREQ-05: 5-year onsite comprehensive warranty and quarterly maintenance.\nREQ-06: Delivery within 45 days.",
-        objective: "Modernize legacy control systems with ruggedized industrial hardware to ensure high availability and reduce downtime in harsh environmental conditions.",
+        structuredRequirements: "REQ-01: Supply of 5000 Tons of high-alumina telemetry-enabled refractory bricks.\nREQ-02: Installation of 15 Blast Furnace Slag Flow Sensors capable of real-time monitoring.\nREQ-03: Integration with existing SAP-ERP (Module MM) for dynamic inventory management and dead stock prevention.\nREQ-04: Development of a Price-Fixation ML algorithm to accurately baseline blast furnace slag costs.\nREQ-05: 3-year Comprehensive Annual Maintenance Contract (CAMC).\nREQ-06: Delivery within 60 days.",
+        objective: "Procurement of AI-Optimized Blast Furnace Refractory Spares and Automated Slag Monitoring System to prevent capital lockup and accurately fix commodity prices.",
         ambiguities: [
-          { issue: "Dust resistance rating not specified", suggestion: "Specify IP65 or IP67 rating for dust resistance." },
-          { issue: "Processor specs missing", suggestion: "Define minimum CPU core count and base clock speed." }
+          { issue: "SAP-ERP version not specified", suggestion: "Specify if integration is required for ECC 6.0 or S/4HANA." },
+          { issue: "Sensor temperature rating missing", suggestion: "Define minimum temperature tolerance for slag flow sensors (e.g., up to 1600°C)." }
         ],
-        clarityScore: 78,
-        estimatedBudgetCr: 1.8
+        clarityScore: 82,
+        estimatedBudgetCr: 212.5
       } 
     };
   }
@@ -55,8 +55,8 @@ export async function generateMarketDataAction(requirements: string) {
     return {
       success: true,
       data: {
-        marketPredictionCr: 2.1,
-        vendorFunnel: { totalIdentified: 24, eligibleVendors: 7 }
+        marketPredictionCr: 210.8,
+        vendorFunnel: { totalIdentified: 24, eligibleVendors: 5 }
       }
     };
   }
@@ -83,19 +83,19 @@ export async function generateTenderAction(requirements: string, marketData: any
     return {
       success: true,
       data: {
-        tenderTitle: "AI-Based Predictive Maintenance Platform for Critical Industrial Equipment",
-        tenderReference: "NIT-2026-AI-PM-001",
-        biddingMethod: "Two-Bid System",
-        scopeOfWork: "The scope of work includes the design, development, supply, installation, testing, and commissioning of an AI-based Predictive Maintenance platform.",
-        keyDeliverables: ["AI Engine", "Edge Gateways", "24/7 Support", "Dashboard"],
+        tenderTitle: "Supply of Critical Blast Furnace Spares & Slag Optimization Sensors",
+        tenderReference: "SAIL-BOK-2026-BF5-001",
+        biddingMethod: "Global e-Tender (Two-Bid System)",
+        scopeOfWork: "Supply and installation of telemetry-enabled refractory bricks, blast furnace slag flow sensors, and integration with SAP-ERP to dynamically manage dead stock inventory limits.",
+        keyDeliverables: ["Refractory Spares (High-Alumina)", "Slag Flow Sensors", "SAP-ERP Integration Module", "Price-Fixation Algorithm Maintenance"],
         preQualificationCriteria: [
-          { title: "Financial Turnover", description: "Average annual turnover of at least $2M in the last 3 financial years." },
-          { title: "Prior Experience", description: "Successful completion of at least 2 similar predictive maintenance projects in the last 5 years." }
+          { title: "Financial Turnover", description: "Average annual turnover of at least ₹500 Crore in the last 3 financial years." },
+          { title: "Prior Experience", description: "Successful completion of at least 3 heavy-metallurgy AI implementations for steel plants > 2MTPA capacity." }
         ],
         boqEstimates: [
-          { id: 1, description: "AI Platform License (Annual)", unit: "Lot", quantity: 1, estimatedRate: 15000000 },
-          { id: 2, description: "Edge Compute Hardware", unit: "Nos", quantity: 50, estimatedRate: 200000 },
-          { id: 3, description: "Integration & Implementation Services", unit: "Lot", quantity: 1, estimatedRate: 10000000 }
+          { id: 1, description: "Telemetry-Enabled Refractory Bricks", unit: "Tons", quantity: 5000, estimatedRate: 350000 },
+          { id: 2, description: "Blast Furnace Slag Flow Sensors", unit: "Nos", quantity: 15, estimatedRate: 15000000 },
+          { id: 3, description: "SAP-ERP Inventory Integration & ML Implementation", unit: "Lot", quantity: 1, estimatedRate: 133000000 }
         ]
       }
     };

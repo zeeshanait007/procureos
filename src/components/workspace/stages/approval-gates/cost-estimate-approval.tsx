@@ -53,7 +53,7 @@ export function CostEstimateApprovalGate({ caseData }: { caseData: any }) {
           <AlertTriangle className="w-4 h-4 text-blue-600" /> AI Cost Intelligence
         </h4>
         <p className="text-sm text-blue-800 leading-relaxed">
-          The estimated unit rate for "Edge Compute Hardware" (₹2,00,000) aligns perfectly with recent GE GeM procurement data. "AI Platform License" is projected 5% lower than historical averages due to increased market competition among OEM vendors. No unusual pricing detected.
+          The estimated unit rate for "Telemetry-Enabled Refractory Bricks" (₹3,50,000 / Ton) aligns perfectly with recent historical data from Bokaro and Rourkela. "SAP-ERP Inventory Integration" is projected 5% lower than historical averages due to increased market competition among OEM vendors. No unusual pricing detected.
         </p>
       </div>
 

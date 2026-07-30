@@ -17,7 +17,7 @@ export function AdminApprovalGate({ caseData }: { caseData: any }) {
       </div>
       <div>
         <h4 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Consequences of Not Procuring</h4>
-        <p className="text-slate-900 bg-slate-50 p-4 rounded-lg border border-slate-100">Estimated 30% increase in unplanned downtime, resulting in approximately $2M annual losses in operational capacity.</p>
+        <p className="text-slate-900 bg-slate-50 p-4 rounded-lg border border-slate-100">Estimated 55% increase in non-moving inventory (dead stock) locking up over ₹212 Crore, and potential continued losses (approx ₹441.40 Crore) due to faulty price-fixation formulas for blast furnace slag.</p>
       </div>
     </div>
   )

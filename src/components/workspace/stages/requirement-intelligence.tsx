@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useWorkspace } from "@/components/workspace/workspace-provider";
 import { analyzeRequirementsAction } from "@/app/actions/ai-actions";
 
-const SAMPLE_PROMPT = "We are upgrading the control systems at the Bhilai Steel Plant (SAIL) and need to procure 50 ruggedized industrial workstations for the blast furnace control rooms. They must be able to operate in high-temperature (up to 55°C) and high-dust environments. Need minimum 16GB ECC RAM, dual gigabit ethernet, and redundant power supplies. Must support legacy RS-232 serial connections for older PLCs. Delivery required within 45 days. The estimated budget is roughly 1.8 Cr. Include 5-year onsite comprehensive warranty and quarterly maintenance.";
+const SAMPLE_PROMPT = "We are upgrading the blast furnaces at the Bokaro Steel Plant (SAIL) to prevent capital lockup in dead stock. We need to procure 5000 Tons of high-alumina telemetry-enabled refractory bricks, and install 15 Blast Furnace Slag Flow Sensors for real-time monitoring. The entire system must be integrated with our existing SAP-ERP (Module MM) for dynamic inventory management. We also require a Price-Fixation ML algorithm to accurately baseline slag costs. Need a 3-year Comprehensive Annual Maintenance Contract (CAMC). Delivery is required within 60 days. The estimated budget is roughly 212.5 Cr.";
 
 export function RequirementIntelligence({ nextStage }: { nextStage?: string }) {
   const { data, updateData } = useWorkspace();
