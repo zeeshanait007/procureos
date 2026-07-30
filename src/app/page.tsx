@@ -79,7 +79,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               className="text-lg md:text-xl text-slate-400 max-w-xl leading-relaxed"
             >
-              Orchestrate your end-to-end procurement process with AI agents purposely built for Procurement. From generative intake to autonomous sourcing, execute billions in spend with zero compliance breaches.
+              Orchestrate your end-to-end procurement process with AI agents purposely built for Procurement. From requirement intelligence to AI tender assembly, execute billions in spend with zero compliance breaches.
             </motion.p>
 
             <motion.div 
@@ -109,19 +109,7 @@ export default function Home() {
         </motion.div>
       </main>
 
-      {/* Trust Banner */}
-      <section className="relative z-10 border-y border-white/5 bg-slate-900/20 py-8 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-6">Trusted by pioneers orchestrating billions in global spend</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-            {/* Logos (Placeholders) */}
-            <div className="text-xl font-bold font-serif italic text-white flex items-center gap-2"><Target className="w-5 h-5"/> Acme Corp</div>
-            <div className="text-xl font-black tracking-tighter text-white flex items-center gap-2"><Server className="w-5 h-5"/> GlobalTech</div>
-            <div className="text-xl font-semibold uppercase tracking-widest text-white flex items-center gap-2"><Activity className="w-5 h-5"/> Nexus</div>
-            <div className="text-xl font-mono text-white flex items-center gap-2"><Zap className="w-5 h-5"/> Hyperion</div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Bento Grid Features */}
       <section id="platform" className="relative z-10 py-32 px-6">
@@ -144,7 +132,7 @@ export default function Home() {
                 <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-500/30">
                   <Bot className="w-6 h-6 text-indigo-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Generative Intake Management</h3>
+                <h3 className="text-2xl font-bold text-white">Requirement Intelligence</h3>
                 <p className="text-slate-400 max-w-md leading-relaxed">
                   Guided buying experiences that delight stakeholders. The AI Copilot translates raw business problems into perfectly structured technical, commercial, and security requirements in seconds.
                 </p>
@@ -164,7 +152,7 @@ export default function Home() {
                 <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center border border-blue-500/30">
                   <PieChart className="w-6 h-6 text-blue-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Unified Spend Analytics</h3>
+                <h3 className="text-2xl font-bold text-white">Cost & Market Benchmarking</h3>
                 <p className="text-slate-400 leading-relaxed">
                   Cost benchmarking and market availability intelligence derived instantly from historical POs and third-party data.
                 </p>
@@ -204,7 +192,7 @@ export default function Home() {
                 <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center border border-emerald-500/30">
                   <ShieldCheck className="w-6 h-6 text-emerald-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Intelligent Compliance Shield</h3>
+                <h3 className="text-2xl font-bold text-white">Intelligent Compliance Review</h3>
                 <p className="text-slate-400 max-w-md leading-relaxed">
                   Ambient agents operate in the background, autonomously flagging legal risks, missing clauses, and governance breaches before anything goes live. Keep humans in the loop with responsible AI.
                 </p>
@@ -253,10 +241,10 @@ export default function Home() {
             <div>
               <h5 className="font-semibold text-white mb-4">Platform</h5>
               <ul className="space-y-3 text-slate-400 text-sm">
-                <li><Link href="#" className="hover:text-indigo-400 transition-colors">Unified Spend Analytics</Link></li>
-                <li><Link href="#" className="hover:text-indigo-400 transition-colors">Generative Intake</Link></li>
-                <li><Link href="#" className="hover:text-indigo-400 transition-colors">Autonomous Sourcing</Link></li>
-                <li><Link href="#" className="hover:text-indigo-400 transition-colors">Supplier Management</Link></li>
+                <li><Link href="#" className="hover:text-indigo-400 transition-colors">Cost & Market Benchmarking</Link></li>
+                <li><Link href="#" className="hover:text-indigo-400 transition-colors">Requirement Intelligence</Link></li>
+                <li><Link href="#" className="hover:text-indigo-400 transition-colors">AI Tender Assembly</Link></li>
+                <li><Link href="#" className="hover:text-indigo-400 transition-colors">Pre-Qualification & Evaluation</Link></li>
               </ul>
             </div>
             <div>
