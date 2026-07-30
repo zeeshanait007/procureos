@@ -14,7 +14,7 @@ export function AiCopilot() {
   const scrollRef = useRef<HTMLDivElement>(null);
   
   const { messages, setMessages, status, sendMessage } = useChat({
-    initialMessages: [
+    messages: [
       {
         id: '1',
         role: 'assistant',
