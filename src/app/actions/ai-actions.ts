@@ -56,7 +56,14 @@ export async function generateMarketDataAction(requirements: string) {
       success: true,
       data: {
         marketPredictionCr: 210.8,
-        vendorFunnel: { totalIdentified: 24, eligibleVendors: 5 }
+        vendorFunnel: { totalIdentified: 24, eligibleVendors: 5 },
+        variancePercentage: -2,
+        sources: ["SAIL Procurement Data (2025)", "GeM Portal Metallurgy Contracts", "Global Refractory Index"],
+        itemizedCosts: [
+          { component: "Telemetry-Enabled Refractory Bricks", marketAvg: "₹180 Cr", ourEst: "₹175 Cr" },
+          { component: "Blast Furnace Slag Flow Sensors", marketAvg: "₹21 Cr", ourEst: "₹22.5 Cr" },
+          { component: "SAP-ERP Inventory Integration & ML", marketAvg: "₹15 Cr", ourEst: "₹13.3 Cr" }
+        ]
       }
     };
   }
