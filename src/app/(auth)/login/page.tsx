@@ -103,7 +103,7 @@ export default function LoginPage() {
           </div>
           
           <div className="mt-6 text-xs text-slate-400 text-center">
-            <p>Demo hint: Use <span className="font-mono bg-slate-100 px-1 rounded text-slate-600">alice@acme.com</span> or <span className="font-mono bg-slate-100 px-1 rounded text-slate-600">bob@acme.com</span></p>
+            <p>Demo hint: Use <span className="font-mono bg-slate-100 px-1 rounded text-slate-600">admin@sail.co.in</span> with password <span className="font-mono bg-slate-100 px-1 rounded text-slate-600">password123</span></p>
           </div>
         </div>
       </div>
