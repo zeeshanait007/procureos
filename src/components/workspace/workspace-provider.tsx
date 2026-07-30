@@ -33,6 +33,7 @@ export interface TenderDraft {
   keyDeliverables: string[];
   preQualificationCriteria?: any[];
   financialBidFormat?: any[];
+  boqEstimates?: any[];
 }
 
 export interface ComplianceAlert {
