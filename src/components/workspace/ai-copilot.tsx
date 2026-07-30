@@ -18,7 +18,7 @@ export function AiCopilot() {
       {
         id: '1',
         role: 'assistant',
-        content: "Hi! I'm your Procoryx Copilot. I've analyzed the Business Problem from the previous stage. You can ask me to draft requirements, score clarity, or analyze market benchmarks!"
+        parts: [{ type: 'text', text: "Hi! I'm your Procoryx Copilot. I've analyzed the Business Problem from the previous stage. You can ask me to draft requirements, score clarity, or analyze market benchmarks!" }]
       }
     ],
     onError: (error) => {
@@ -28,7 +28,7 @@ export function AiCopilot() {
           {
             id: Date.now().toString(),
             role: 'assistant',
-            content: "⚠️ **Connection Error**: I couldn't reach the Gemini API (please check if GOOGLE_GENERATIVE_AI_API_KEY is set in your environment).\n\n*Demo Fallback*: Based on my analysis, procuring these telemetry-enabled refractory bricks will reduce your dead stock capital lockup by precisely the 55% projected in the business case!"
+            parts: [{ type: 'text', text: "⚠️ **Connection Error**: I couldn't reach the Gemini API (please check if GOOGLE_GENERATIVE_AI_API_KEY is set in your environment).\n\n*Demo Fallback*: Based on my analysis, procuring these telemetry-enabled refractory bricks will reduce your dead stock capital lockup by precisely the 55% projected in the business case!" }]
           }
         ]);
       }
@@ -40,7 +40,7 @@ export function AiCopilot() {
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!input.trim()) return;
-    sendMessage({ role: 'user', content: input });
+    sendMessage({ role: 'user', parts: [{ type: 'text', text: input }] });
     setInput("");
   };
 
@@ -69,9 +69,20 @@ export function AiCopilot() {
       sendMessage({
         id: Date.now().toString(),
         role: 'user',
-        content: action,
+        parts: [{ type: 'text', text: action }],
       });
     }
+  };
+
+  const getMessageText = (message: any) => {
+    if (message.content) return message.content;
+    if (message.parts) {
+      return message.parts
+        .filter((p: any) => p.type === 'text')
+        .map((p: any) => p.text)
+        .join('');
+    }
+    return '';
   };
 
   return (
@@ -99,7 +110,7 @@ export function AiCopilot() {
                 {m.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
               </div>
               <div className={`border rounded-lg p-3 shadow-sm text-[13px] leading-relaxed whitespace-pre-wrap max-w-[80%] ${m.role === 'user' ? 'bg-slate-800 text-white border-slate-700' : 'bg-white text-slate-700'}`}>
-                {m.content}
+                {getMessageText(m)}
               </div>
             </div>
           ))}
