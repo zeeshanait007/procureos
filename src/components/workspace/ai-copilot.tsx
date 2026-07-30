@@ -17,9 +17,9 @@ export function AiCopilot() {
     messages: [
       {
         id: '1',
-        role: 'assistant',
+        role: 'assistant' as const,
         parts: [{ type: 'text', text: "Hi! I'm your Procoryx Copilot. I've analyzed the Business Problem from the previous stage. You can ask me to draft requirements, score clarity, or analyze market benchmarks!" }]
-      }
+      } as any
     ],
     onError: (error) => {
       if (setMessages) {
@@ -29,7 +29,7 @@ export function AiCopilot() {
             id: Date.now().toString(),
             role: 'assistant',
             parts: [{ type: 'text', text: "⚠️ **Connection Error**: I couldn't reach the Gemini API (please check if GOOGLE_GENERATIVE_AI_API_KEY is set in your environment).\n\n*Demo Fallback*: Based on my analysis, procuring these telemetry-enabled refractory bricks will reduce your dead stock capital lockup by precisely the 55% projected in the business case!" }]
-          }
+          } as any
         ]);
       }
     }
@@ -40,7 +40,7 @@ export function AiCopilot() {
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!input.trim()) return;
-    sendMessage({ role: 'user', parts: [{ type: 'text', text: input }] });
+    sendMessage({ role: 'user', parts: [{ type: 'text', text: input }] } as any);
     setInput("");
   };
 
@@ -70,7 +70,7 @@ export function AiCopilot() {
         id: Date.now().toString(),
         role: 'user',
         parts: [{ type: 'text', text: action }],
-      });
+      } as any);
     }
   };
 
