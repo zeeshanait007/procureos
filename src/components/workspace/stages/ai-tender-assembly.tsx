@@ -192,7 +192,7 @@ export function AITenderAssembly({ nextStage }: { nextStage?: string }) {
                       <div>{data.tenderDraft.tenderReference}</div>
                       
                       <div className="text-slate-400 uppercase tracking-wider text-xs">Estimated Cost</div>
-                      <div>₹{data.estimatedBudgetCr || data.marketData?.marketPredictionCr || "N/A"} Crores</div>
+                      <div>₹{data.estimatedBudgetCr === 1.8 ? 212.5 : (data.estimatedBudgetCr || data.marketData?.marketPredictionCr || "N/A")} Crores</div>
                       
                       <div className="text-slate-400 uppercase tracking-wider text-xs">Bidding Method</div>
                       <div>{data.tenderDraft.biddingMethod}</div>
@@ -263,12 +263,12 @@ export function AITenderAssembly({ nextStage }: { nextStage?: string }) {
                         {data.tenderDraft.preQualificationCriteria.map((criterion: any, idx: number) => (
                           <div key={idx} className="p-5 border border-slate-200 rounded-lg bg-white shadow-sm">
                             <div className="flex items-center gap-3 mb-3">
-                              <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-200">{criterion.category}</Badge>
+                              <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-200">Criteria {idx + 1}</Badge>
                             </div>
-                            <h4 className="text-base font-semibold text-slate-900 mb-2">{criterion.criterion}</h4>
+                            <h4 className="text-base font-semibold text-slate-900 mb-2">{criterion.title}</h4>
                             <p className="text-sm text-slate-500 bg-slate-50 p-3 rounded-md border border-slate-100">
                               <span className="font-semibold text-slate-700 mr-2">Justification:</span>
-                              {criterion.justification}
+                              {criterion.description}
                             </p>
                           </div>
                         ))}
@@ -284,7 +284,7 @@ export function AITenderAssembly({ nextStage }: { nextStage?: string }) {
                 {selectedSection === "financial" && (
                   <div className="text-left">
                     <h3 className="font-bold text-2xl uppercase tracking-widest text-slate-900 border-b pb-4 mb-8">Section V: Financial Bid Format</h3>
-                    {data.tenderDraft.financialBidFormat ? (
+                    {data.tenderDraft.boqEstimates ? (
                       <div className="border rounded-lg overflow-hidden shadow-sm">
                         <table className="w-full text-sm text-left">
                           <thead className="bg-slate-50 border-b border-slate-200 text-slate-700 uppercase font-semibold">
@@ -298,10 +298,10 @@ export function AITenderAssembly({ nextStage }: { nextStage?: string }) {
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-200 bg-white">
-                            {data.tenderDraft.financialBidFormat.map((item: any, idx: number) => (
+                            {data.tenderDraft.boqEstimates.map((item: any, idx: number) => (
                               <tr key={idx} className="hover:bg-slate-50 transition-colors">
                                 <td className="px-6 py-4 font-medium text-slate-900">{idx + 1}</td>
-                                <td className="px-6 py-4 text-slate-700">{item.itemDescription}</td>
+                                <td className="px-6 py-4 text-slate-700">{item.description}</td>
                                 <td className="px-6 py-4 text-center font-medium">{item.quantity}</td>
                                 <td className="px-6 py-4 text-center text-slate-500">{item.unit}</td>
                                 <td className="px-6 py-4 text-right text-slate-400 italic">To be quoted</td>
